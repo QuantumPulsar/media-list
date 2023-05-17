@@ -1,8 +1,8 @@
+"use client";
 import "./globals.css";
-import Link from "next/link";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+import { ThemeProvider, useTheme } from "./context/ThemeContext";
+import { useEffect } from "react";
 
 export const metadata = {
     title: "Create Next App",
@@ -14,9 +14,16 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+    //But here it remains true.
+    const { isDark, setIsDark } = useTheme();
+    useEffect(() => {
+        setIsDark(false);
+    }, []);
     return (
-        <html lang="en">
-            <body className={inter.className}>{children}</body>
-        </html>
+        <ThemeProvider>
+            <html lang="en" className={`${isDark ? "dark" : ""}`}>
+                <body>{children}</body>
+            </html>
+        </ThemeProvider>
     );
 }
